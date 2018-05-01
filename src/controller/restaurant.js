@@ -18,5 +18,54 @@ export default({ config, db }) => {
             res.json({ message: 'Restaurant saved successfully' });
         });
     });
+
+    // 'v1/restaurant'
+    api.get('/', (req, res) => {
+        Restaurant.find({}, (err, restaurants) => {
+            if (err) {
+                res.send(err);
+            }
+            res.json(restaurants);
+        });
+    });
+
+    // '/v1/restaurant/:id'
+    api.get('/:id', (req, res) => {
+        Restaurant.findById(req.params.id, (err, restaurant) => {
+            if (err) {
+                res.send(err);
+            }
+            res.json(restaurant);
+        });
+    });
+
+    // '/v1/restaurant/:id' - PUT - update an existing record
+    api.put('/:id', (req, res) => {
+        Restaurant.findById(req.params.id, (err, restaurant) => {
+            if (err) {
+                res.send(err);
+            }
+            restaurant.name = req.body.name;
+            restaurant.save(function(err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({ message: 'Restaurant info updated' });
+            });
+        });
+    });
+
+    // '/v1/restaurant/:id' - DELETE - remove a restaurant
+    api.delete('/:id', (req, res) => {
+        Restaurant.remove({
+            _id: req.params.id
+        }, (err, restaurant) => {
+            if (err) {
+                res.send(err);
+            }
+            res.json({message: "Restaurant Successfully Removed"});
+        });
+    });
+
     return api;
 }

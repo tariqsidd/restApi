@@ -1,69 +1,69 @@
 import mongoose from 'mongoose';
 import { Router } from 'express';
-import Restaurant from '../model/restaurant';
+import TodoList from '../model/todoList';
 import bodyParser from 'body-parser';
 
 export default({ config, db }) => {
     let api = Router();
 
-    // '/v1/restaurant/add'
+     //'/v1/todo/add'
     api.post('/add', (req, res) => {
-        let newRest = new Restaurant();
-        newRest.name = req.body.name;
+        let newTodo = new TodoList();
+        newTodo.task = req.body.task;
 
-        newRest.save(function(err) {
+        newTodo.save(function(err) {
             if (err) {
                 res.send(err);
             }
-            res.json({ message: 'Restaurant saved successfully' });
+            res.json({ message: 'Task saved successfully' });
         });
     });
 
     // 'v1/restaurant'
     api.get('/', (req, res) => {
-        Restaurant.find({}, (err, restaurants) => {
+        TodoList.find({}, (err, todoes) => {
             if (err) {
                 res.send(err);
             }
-            res.json(restaurants);
+            res.json(todoes);
         });
     });
 
-    // '/v1/restaurant/:id'
+    // '/v1/todo/:id'
     api.get('/:id', (req, res) => {
-        Restaurant.findById(req.params.id, (err, restaurant) => {
+        TodoList.findById(req.params.id, (err, todo) => {
             if (err) {
                 res.send(err);
             }
-            res.json(restaurant);
+            res.json(todo);
         });
     });
 
-    // '/v1/restaurant/:id' - PUT - update an existing record
+    // '/v1/todo/:id' - PUT - update an existing record
     api.put('/:id', (req, res) => {
-        Restaurant.findById(req.params.id, (err, restaurant) => {
+        TodoList.findById(req.params.id, (err, todo) => {
             if (err) {
                 res.send(err);
             }
-            restaurant.name = req.body.name;
-            restaurant.save(function(err) {
+            todo.task = req.body.task;
+            todo.save(function(err) {
                 if (err) {
                     res.send(err);
                 }
-                res.json({ message: 'Restaurant info updated' });
+                res.json({ message: 'Task updated' });
             });
         });
     });
 
-    // '/v1/restaurant/:id' - DELETE - remove a restaurant
+    // '/v1/todo/:id' - DELETE - remove a todo
     api.delete('/:id', (req, res) => {
-        Restaurant.remove({
+        TodoList.remove({
             _id: req.params.id
-        }, (err, restaurant) => {
+        }, (err, todo) => {
             if (err) {
                 res.send(err);
             }
-            res.json({message: "Restaurant Successfully Removed"});
+            res.json({message: "Task Successfully Removed"});
         });
     });
 

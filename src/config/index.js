@@ -1,5 +1,5 @@
 export default {
-    "port": 3005,
-    "mongoUrl": "mongodb://localhost:27017/restaurant-api",
+    "port": 3000,
+    "mongoUrl": "mongodb://localhost:27017/todoList-api",
     "bodyLimit": "100kb"
 }

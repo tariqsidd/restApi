@@ -10,6 +10,8 @@ export default({ config, db }) => {
     api.post('/add', (req, res) => {
         let newTodo = new TodoList();
         newTodo.task = req.body.task;
+        newTodo.isDone = req.body.isDone;
+
 
         newTodo.save(function(err) {
             if (err) {
@@ -46,6 +48,8 @@ export default({ config, db }) => {
                 res.send(err);
             }
             todo.task = req.body.task;
+            todo.isDone = req.body.isDone;
+
             todo.save(function(err) {
                 if (err) {
                     res.send(err);
